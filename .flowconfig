@@ -1,0 +1,14 @@
+[ignore]
+.*/node_modules/oboe/test/json/incomplete.json
+
+[include]
+
+[libs]
+
+[lints]
+
+[options]
+include_warnings=true
+module.name_mapper='^\(.*\)$' -> '<PROJECT_ROOT>/src/\1'
+
+[strict]
