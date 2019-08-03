@@ -5,9 +5,11 @@ import BusyIndicator from 'react-busy-indicator'
 import { View, NotFoundBoundary, useLoadingRoute } from 'react-navi'
 import posed from 'react-pose'
 
-import NotFoundRoute from 'views/NotFound'
+import NotFound from 'views/NotFound'
+import NoProvider from 'views/NoProvider'
 import Loader from 'components/Loader'
 import { Box } from 'components/styled'
+import { hasProvider } from 'utils/web3'
 
 const AnimatedViewWrapper = posed.div({
   hidden: { opacity: 0, transition: { duration: 200 } },
@@ -16,10 +18,13 @@ const AnimatedViewWrapper = posed.div({
 
 const Layout = () => {
   const loadingRoute = useLoadingRoute()
+  if (!hasProvider()) {
+    return <NoProvider />
+  }
   return (
     <>
       <BusyIndicator isBusy={!!loadingRoute} delayMs={100} />
-      <NotFoundBoundary render={NotFoundRoute}>
+      <NotFoundBoundary render={NotFound}>
         <Suspense fallback={<Loader />}>
           <AnimatedViewWrapper pose={loadingRoute ? 'hidden' : 'visible'}>
             <Box pa4 mw8 center>

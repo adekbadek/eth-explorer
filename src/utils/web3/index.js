@@ -13,6 +13,8 @@ import PROVIDER from './provider'
 
 export const web3 = new Web3(PROVIDER)
 
+export const hasProvider = () => PROVIDER !== null
+
 const sortBlocksByNumber = sortBy<BlockType, BlockNumberType>(prop('number'))
 
 export const getLatestBlocks = async (blocksCount: number = 20) => {
