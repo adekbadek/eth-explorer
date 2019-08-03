@@ -1,15 +1,17 @@
 // @flow
 
 import React, { useEffect, useReducer } from 'react'
-import { useCurrentRoute } from 'react-navi'
+import { mount, route } from 'navi'
 import { prepend, head } from 'ramda'
 import { format } from 'date-fns'
 
+import { getLatestBlocks } from 'utils/web3'
 import { subscribeToBlocks } from 'utils/web3'
 import { Heading1 } from 'components/styled'
 import Table from 'components/Table'
 import BlockLink from 'components/BlockLink'
 import Info from 'components/Info'
+import type { BlockType } from 'types'
 
 function blocksReducer(state, action) {
   switch (action.type) {
@@ -23,10 +25,12 @@ function blocksReducer(state, action) {
 const getDateString = timestamp =>
   `${format(new Date(timestamp * 1000), 'HH:mm:ss')}`
 
-const BlockList = () => {
-  const { data } = useCurrentRoute()
+type Props = {
+  blocks: Array<BlockType>,
+}
 
-  const [state, dispatch] = useReducer(blocksReducer, data)
+const BlockList = ({ blocks }: Props) => {
+  const [state, dispatch] = useReducer(blocksReducer, { blocks })
 
   useEffect(() => {
     const unsubscribe = subscribeToBlocks((err, newBlock) => {
@@ -64,4 +68,11 @@ const BlockList = () => {
   )
 }
 
-export default BlockList
+export default mount({
+  '/': route({
+    async getView(request) {
+      const { blocks } = await getLatestBlocks()
+      return <BlockList blocks={blocks} />
+    },
+  }),
+})
