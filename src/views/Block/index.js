@@ -7,6 +7,7 @@ import { mount, route } from 'navi'
 import { getSingleBlock } from 'utils/web3'
 import type { BlockType } from 'types'
 import TransactionLink from 'components/TransactionLink'
+import AnimatedList from 'components/AnimatedList'
 
 export default mount({
   '/:blockHash': route({
@@ -26,11 +27,10 @@ export const Block = ({ block }: { block: BlockType }) => {
       <br />
       {block.number}
       <br />
-      {block.transactions.map(hash => (
-        <TransactionLink key={hash} hash={hash}>
-          {hash}
-        </TransactionLink>
-      ))}
+      <AnimatedList
+        items={block.transactions.map(hash => ({ id: hash, hash }))}
+        renderItem={({ hash }) => <TransactionLink hash={hash} />}
+      />
     </div>
   )
 }

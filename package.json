@@ -9,7 +9,9 @@
     "react-busy-indicator": "^1.0.0",
     "react-dom": "^16.8.6",
     "react-navi": "^0.13.5",
+    "react-pose": "^4.0.8",
     "react-scripts": "3.0.1",
+    "styled-components": "^4.3.2",
     "web3": "^1.2.0"
   },
   "scripts": {

@@ -6,6 +6,7 @@ import { prepend } from 'ramda'
 
 import { subscribeToBlocks } from 'utils/web3'
 import BlockLink from 'components/BlockLink'
+import AnimatedList from 'components/AnimatedList'
 
 function blocksReducer(state, action) {
   switch (action.type) {
@@ -34,11 +35,10 @@ const BlockList = () => {
   return (
     <div>
       <h1>blocks:</h1>
-      <div>
-        {state.blocks.map(block => (
-          <BlockLink key={block.number} block={block} />
-        ))}
-      </div>
+      <AnimatedList
+        items={state.blocks.map(block => ({ id: block.hash, ...block }))}
+        renderItem={block => <BlockLink block={block} />}
+      />
     </div>
   )
 }
