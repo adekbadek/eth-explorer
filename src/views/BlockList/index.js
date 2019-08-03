@@ -2,14 +2,14 @@
 
 import React, { useEffect, useReducer } from 'react'
 import { useCurrentRoute } from 'react-navi'
-import { prepend } from 'ramda'
+import { prepend, head } from 'ramda'
 import { format } from 'date-fns'
 
 import { subscribeToBlocks } from 'utils/web3'
 import { Heading1 } from 'components/styled'
 import Table from 'components/Table'
 import BlockLink from 'components/BlockLink'
-import CurrentNetwork from 'components/CurrentNetwork'
+import Info from 'components/Info'
 
 function blocksReducer(state, action) {
   switch (action.type) {
@@ -43,7 +43,7 @@ const BlockList = () => {
       <Heading1 mb3 b>
         Last {state.blocks.length} blocks on Ethereum blockchain:
       </Heading1>
-      <CurrentNetwork />
+      <Info lastBlock={head(state.blocks)} />
       <Table
         mt4
         headers={{
