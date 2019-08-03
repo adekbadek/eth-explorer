@@ -3,10 +3,12 @@
 import React, { useEffect, useReducer } from 'react'
 import { useCurrentRoute } from 'react-navi'
 import { prepend } from 'ramda'
+import { format } from 'date-fns'
 
 import { subscribeToBlocks } from 'utils/web3'
+import { Heading1 } from 'components/styled'
+import Table from 'components/Table'
 import BlockLink from 'components/BlockLink'
-import AnimatedList from 'components/AnimatedList'
 
 function blocksReducer(state, action) {
   switch (action.type) {
@@ -16,6 +18,9 @@ function blocksReducer(state, action) {
       throw new Error()
   }
 }
+
+const getDateString = timestamp =>
+  `${format(new Date(timestamp * 1000), 'HH:mm:ss')}`
 
 const BlockList = () => {
   const { data } = useCurrentRoute()
@@ -34,10 +39,23 @@ const BlockList = () => {
 
   return (
     <div>
-      <h1>blocks:</h1>
-      <AnimatedList
-        items={state.blocks.map(block => ({ id: block.hash, ...block }))}
-        renderItem={block => <BlockLink block={block} />}
+      <Heading1 mb4 b>
+        Last {state.blocks.length} blocks on Ethereum blockchain:
+      </Heading1>
+      <Table
+        headers={{
+          number: 'No.',
+          timestamp: 'Mined at',
+          hash: 'Hash',
+        }}
+        cellRenderers={{
+          hash: block => <BlockLink hash={block.hash} />,
+          timestamp: block => getDateString(block.timestamp),
+        }}
+        items={state.blocks.map(block => ({
+          id: block.hash,
+          ...block,
+        }))}
       />
     </div>
   )

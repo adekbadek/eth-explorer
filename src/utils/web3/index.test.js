@@ -6,7 +6,7 @@ jest.mock('./provider', () => {
 
 describe('web3 utils', () => {
   it('provides latest blocks', async () => {
-    const { blocks } = await getLatestBlocks()
+    const { blocks } = await getLatestBlocks(10)
     expect(blocks.length).toBe(10)
     expect(blocks[0]).toMatchObject({
       number: 0,

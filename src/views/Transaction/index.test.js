@@ -19,7 +19,7 @@ describe('Transaction', () => {
   )
 
   it('displays transaction value', () => {
-    expect(getByText('0.11829137')).toBeDefined()
+    expect(getByText('0.11829137 ETH')).toBeDefined()
   })
   it('displays transaction from address', () => {
     expect(getByText(transaction.from)).toBeDefined()

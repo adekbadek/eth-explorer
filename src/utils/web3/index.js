@@ -15,7 +15,7 @@ export const web3 = new Web3(PROVIDER)
 
 const sortBlocksByNumber = sortBy<BlockType, BlockNumberType>(prop('number'))
 
-export const getLatestBlocks = async (blocksCount: number = 10) => {
+export const getLatestBlocks = async (blocksCount: number = 20) => {
   const latestBlock = await web3.eth.getBlock('latest')
 
   // NOTE: web3.BatchRequest() could be used when v2 of web3 is released.

@@ -7,6 +7,7 @@ import { Router } from 'react-navi'
 import { getLatestBlocks } from 'utils/web3'
 import BlockList from 'views/BlockList'
 import Layout from 'components/Layout'
+import { GlobalStyle } from 'components/styled'
 
 const routes = mount({
   '/': route({
@@ -18,9 +19,12 @@ const routes = mount({
 })
 
 const App = () => (
-  <Router routes={routes}>
-    <Layout />
-  </Router>
+  <>
+    <GlobalStyle />
+    <Router routes={routes}>
+      <Layout />
+    </Router>
+  </>
 )
 
 export default App

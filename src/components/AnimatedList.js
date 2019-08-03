@@ -6,25 +6,25 @@ import posed, { PoseGroup } from 'react-pose'
 
 type Props = { items: Array<{ id: string }>, renderItem: Object => Node }
 
-const AnimatedListItem = posed.div({
+export const poseConfiguration = {
   enter: {
     y: 0,
     opacity: 1,
-    delay: ({ index }) => index * 50,
+    delay: ({ index }: { index: number }) => index * 50,
   },
   exit: { y: 20, opacity: 0 },
-})
+}
+
+const AnimatedListItem = posed.div(poseConfiguration)
 
 const AnimatedList = ({ items, renderItem }: Props) => (
-  <div>
-    <PoseGroup animateOnMount>
-      {items.map((item, i) => (
-        <AnimatedListItem key={item.id} index={i}>
-          {renderItem(item)}
-        </AnimatedListItem>
-      ))}
-    </PoseGroup>
-  </div>
+  <PoseGroup animateOnMount>
+    {items.map((item, i) => (
+      <AnimatedListItem key={item.id} index={i}>
+        {renderItem(item)}
+      </AnimatedListItem>
+    ))}
+  </PoseGroup>
 )
 
 export default AnimatedList

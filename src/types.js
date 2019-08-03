@@ -8,6 +8,8 @@ export type BlockType = {
   number: BlockNumberType,
   hash: HashType,
   transactions: Array<HashType>,
+  timestamp: number,
+  uncles: Array<HashType>,
 }
 
 export type TransactionType = {

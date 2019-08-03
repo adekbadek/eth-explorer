@@ -7,6 +7,7 @@ import posed from 'react-pose'
 
 import NotFoundRoute from 'views/NotFound'
 import Loader from 'components/Loader'
+import { Box } from 'components/styled'
 
 const AnimatedViewWrapper = posed.div({
   hidden: { opacity: 0, transition: { duration: 200 } },
@@ -21,7 +22,9 @@ const Layout = () => {
       <NotFoundBoundary render={NotFoundRoute}>
         <Suspense fallback={<Loader />}>
           <AnimatedViewWrapper pose={loadingRoute ? 'hidden' : 'visible'}>
-            <View />
+            <Box pa4 mw8 center>
+              <View />
+            </Box>
           </AnimatedViewWrapper>
         </Suspense>
       </NotFoundBoundary>
