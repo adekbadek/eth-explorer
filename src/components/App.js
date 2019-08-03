@@ -1,47 +1,26 @@
 // @flow
 
-import React, { useEffect, useReducer } from 'react'
-import { prepend } from 'ramda'
+import React from 'react'
+import { lazy, mount, route } from 'navi'
+import { Router } from 'react-navi'
 
-import { getBlocks } from 'utils/web3'
+import { getLatestBlocks } from 'utils/web3'
+import BlockList from 'views/BlockList'
+import Layout from 'components/Layout'
 
-const initialState = { blocks: [] }
+const routes = mount({
+  '/': route({
+    getData: () => getLatestBlocks(),
+    view: <BlockList />,
+  }),
+  '/block': lazy(() => import('views/Block')),
+  '/txn': lazy(() => import('views/Transaction')),
+})
 
-function blocksReducer(state, action) {
-  switch (action.type) {
-    case 'ADD_BLOCK':
-      return { blocks: prepend(action.payload, state.blocks) }
-    default:
-      throw new Error()
-  }
-}
-
-const App = () => {
-  const [state, dispatch] = useReducer(blocksReducer, initialState)
-
-  useEffect(() => {
-    const unsubscribe = getBlocks({
-      initBlocksCount: 10,
-      onBlockAdd: (err, newBlock) => {
-        if (!err) {
-          dispatch({ type: 'ADD_BLOCK', payload: newBlock })
-        }
-      }
-    })
-
-    return unsubscribe
-  }, [])
-
-  return (
-    <div>
-      <h1>blocks:</h1>
-      <div>
-        {state.blocks.map(block => (
-          <div key={block.number}>{block.number}</div>
-        ))}
-      </div>
-    </div>
-  )
-}
+const App = () => (
+  <Router routes={routes}>
+    <Layout />
+  </Router>
+)
 
 export default App

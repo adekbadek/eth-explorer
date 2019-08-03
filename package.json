@@ -3,9 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "navi": "^0.13.3",
     "ramda": "^0.26.1",
     "react": "^16.8.6",
+    "react-busy-indicator": "^1.0.0",
     "react-dom": "^16.8.6",
+    "react-navi": "^0.13.5",
     "react-scripts": "3.0.1",
     "web3": "^1.2.0"
   },
@@ -34,5 +37,10 @@
   "devDependencies": {
     "flow-bin": "^0.104.0",
     "flow-typed": "^2.6.1"
+  },
+  "prettier": {
+    "trailingComma": "es5",
+    "semi": false,
+    "singleQuote": true
   }
 }

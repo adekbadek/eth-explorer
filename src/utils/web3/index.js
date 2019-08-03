@@ -1,37 +1,46 @@
 // @flow
 
 import Web3 from 'web3'
-import { times } from 'ramda'
+import { reverse, times, sortBy, prop } from 'ramda'
 
-import type { BlockType } from 'types'
+import type {
+  BlockType,
+  BlockNumberType,
+  HashType,
+  TransactionType,
+} from 'types'
 
 export const web3 = new Web3(Web3.givenProvider)
 
-type GetBlocksConfigType = {
-  initBlocksCount: number,
-  onBlockAdd: (Error, BlockType) => void
+const sortBlocksByNumber = sortBy<BlockType, BlockNumberType>(prop('number'))
+
+export const getLatestBlocks = async (blocksCount: number = 10) => {
+  const latestBlock = await web3.eth.getBlock('latest')
+
+  // NOTE: web3.BatchRequest() could be used when v2 of web3 is released.
+  // Until then, batch.execute() does not return a Promise.
+
+  const getBlockRequests = times(
+    i => web3.eth.getBlock(latestBlock.number - i),
+    blocksCount
+  )
+
+  return Promise.all(getBlockRequests).then(blocks => ({
+    blocks: reverse(sortBlocksByNumber(blocks)),
+  }))
 }
 
-export const getBlocks = ({
-  initBlocksCount,
-  onBlockAdd
-}: GetBlocksConfigType): (() => void) => {
-  async function getLatestBlocks() {
-    const latestBlock = await web3.eth.getBlock('latest')
+export const getSingleBlock = (hash: HashType) => web3.eth.getBlock(hash)
+export const getTransaction = (hash: HashType) => web3.eth.getTransaction(hash)
 
-    const batch = new web3.BatchRequest()
-
-    times(i => {
-      const blockNumber = latestBlock.number + 1 - initBlocksCount + i
-      batch.add(web3.eth.getBlock.request(blockNumber, onBlockAdd))
-    }, initBlocksCount)
-
-    batch.execute()
-  }
-
-  getLatestBlocks()
-
+export const subscribeToBlocks = (
+  onBlockAdd: (Error, BlockType) => void
+): (() => void) => {
   const subscription = web3.eth.subscribe('newBlockHeaders', onBlockAdd)
 
   return subscription.unsubscribe.bind(subscription)
 }
+
+export const parseTransactionData = (txn: TransactionType) => ({
+  etherValue: web3.utils.fromWei(txn.value),
+})
