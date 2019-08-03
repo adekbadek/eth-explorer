@@ -24,7 +24,7 @@ const TableBody = tachyonsStyled('tbody')`
 `
 
 const TableCell = tachyonsStyled('td')`
-  pv1
+  pv1 pr3
 `
 
 type Props = {

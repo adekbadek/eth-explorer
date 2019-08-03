@@ -9,6 +9,7 @@ import { subscribeToBlocks } from 'utils/web3'
 import { Heading1 } from 'components/styled'
 import Table from 'components/Table'
 import BlockLink from 'components/BlockLink'
+import CurrentNetwork from 'components/CurrentNetwork'
 
 function blocksReducer(state, action) {
   switch (action.type) {
@@ -39,10 +40,12 @@ const BlockList = () => {
 
   return (
     <div>
-      <Heading1 mb4 b>
+      <Heading1 mb3 b>
         Last {state.blocks.length} blocks on Ethereum blockchain:
       </Heading1>
+      <CurrentNetwork />
       <Table
+        mt4
         headers={{
           number: 'No.',
           timestamp: 'Mined at',

@@ -47,3 +47,17 @@ export const subscribeToBlocks = (
 export const parseTransactionData = (txn: TransactionType) => ({
   etherValue: web3.utils.fromWei(txn.value),
 })
+
+const NETWORKS = {
+  '1': 'Mainnet',
+  '2': 'Morden',
+  '3': 'Ropsten',
+  '4': 'Rinkeby',
+  '5': 'Goerli',
+  '42': 'Kovan',
+}
+
+export const getNetworkName = async (): Promise<string> => {
+  const netId = await web3.eth.net.getId()
+  return NETWORKS[netId] || ''
+}

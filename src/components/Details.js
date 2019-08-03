@@ -6,8 +6,13 @@ import { mapObjIndexed, values } from 'ramda'
 
 import { Box } from 'components/styled'
 
-const Details = ({ items }: { items: { [string]: string | (() => Node) } }) => (
-  <Box>
+const Details = ({
+  items,
+  ...props
+}: {
+  items: { [string]: string | (() => Node) },
+}) => (
+  <Box {...props}>
     {values(
       mapObjIndexed(
         (value, key) => (
