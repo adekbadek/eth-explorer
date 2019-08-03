@@ -9,8 +9,9 @@ import type {
   HashType,
   TransactionType,
 } from 'types'
+import PROVIDER from './provider'
 
-export const web3 = new Web3(Web3.givenProvider)
+export const web3 = new Web3(PROVIDER)
 
 const sortBlocksByNumber = sortBy<BlockType, BlockNumberType>(prop('number'))
 

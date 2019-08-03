@@ -35,8 +35,10 @@
     ]
   },
   "devDependencies": {
+    "@testing-library/react": "^8.0.7",
     "flow-bin": "^0.104.0",
-    "flow-typed": "^2.6.1"
+    "flow-typed": "^2.6.1",
+    "ganache-cli": "^6.5.1"
   },
   "prettier": {
     "trailingComma": "es5",
